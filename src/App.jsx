@@ -7,13 +7,13 @@ function App() {
   const [wallet, setWalletInfo] = useState([]);
 
   const generateMemo = () => {
-    const wallet = ethers.Wallet.createRandom();
-    setMnemonic(wallet.mnemonic.phrase);
+    const mnemonic = ethers.Mnemonic.entropyToPhrase(ethers.randomBytes(16));
+    setMnemonic(mnemonic);
   };
 
   const addWallet = () => {
-    const newWallet = ethers.Wallet.fromMnemonic(mnemonic);
-    setWalletInfo([...wallet, newWallet]);
+    const hdNode = ethers.HDNodeWallet.fromPhrase(mnemonic, `m/44'/60'/0'/0/${wallet.length}`);
+    setWalletInfo([...wallet, hdNode]);
   };
 
   return (
